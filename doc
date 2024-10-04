@@ -1,0 +1,37 @@
+Como usar Razor Components en AspNetCore para Net 6
+Para usar los componentes de Razor debemos configurar ciertas cosas y depende en ciertas partes con Net8 que ya viene con unos packages que hacer el render y la configuración mas sencilla ya que la información que ponen en Microsoft es para Net8
+
+Lo primero que debemos hacer es instalar el Nuget de “Microsoft.AspNetCore.Components”
+Una vez instalado, debemos lo primero configurar el Program.cs añadiendo las siguientes líneas.
+builder.Services.AddServerSideBlazor();
+app.MapBlazorHub();
+
+Tras modificar el Program.cs, tenemos que crear la ruta de carpetas para los Componentes dentro de la raíz y dentro vamos a crear nuestros componentes pero son dos los necesarios para funcionarr: _Import.razor y App.razor.
+ 
+El _Import sirver para incluir todos los using que van a ser comunes en los .razor por lo que incluimos estos usings.
+@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using System.IO    
+Dentro del App.razor se agrega la siguiente línea
+
+Ahora se necesita modificar el _Layout.cshtml donde vamos a agregar debajo de los scripts 
+<component type="typeof(Microsoft.AspNetCore.Components.Web.HeadOutlet)"
+           render-mode="ServerPrerendered" />
+Y al final del todo hemos de agregar las siguientes fuera de todo el body.
+
+    <base href="~/" />
+    <script src="_framework/blazor.server.js"></script>
+
+
+Una vez realizadas estas configuraciones ya podemos crear nuestro componente razor que podemos mostrar en cualquier vista usando la siguiente forma
+<div>
+    <component type="typeof(Counter)" render-mode="ServerPrerendered" />
+</div>
+
+
+84101115116326580711310
